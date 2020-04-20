@@ -2,94 +2,18 @@
 
 namespace Jakmall\Recruitment\Calculator\Commands;
 
-use Illuminate\Console\Command;
+use Jakmall\Recruitment\Calculator\Commands\Core;
 
-class MultiplyCommand extends Command
+class MultiplyCommand extends Core
 {
-    /**
-     * @var string
-     */
-    protected $signature;
-
-    /**
-     * @var string
-     */
-    protected $description;
-
     public function __construct()
     {
-        $commandVerb = $this->getCommandVerb();
+        $this->operator = '*';
+        $this->command = 'multiply';
+        $this->description = "multiply all given numbers";
 
-        $this->signature = sprintf(
-            '%s {numbers* : The numbers to be %s}',
-            $commandVerb,
-            $this->getCommandPassiveVerb()
-        );
-        $this->description = sprintf('%s all given Numbers', ucfirst($commandVerb));
+        //argument must be array
+        $this->argument = ['numbers* : The numbers to be multiplied'];
         parent::__construct();
-    }
-
-    protected function getCommandVerb(): string
-    {
-        return 'multiply';
-    }
-
-    protected function getCommandPassiveVerb(): string
-    {
-        return 'multiplied';
-    }
-
-    public function handle(): void
-    {
-        $numbers = $this->getInput();
-        $description = $this->generateCalculationDescription($numbers);
-        $result = $this->calculateAll($numbers);
-
-        $this->comment(sprintf('%s = %s', $description, $result));
-    }
-
-    protected function getInput(): array
-    {
-        return $this->argument('numbers');
-    }
-
-    protected function generateCalculationDescription(array $numbers): string
-    {
-        $operator = $this->getOperator();
-        $glue = sprintf(' %s ', $operator);
-
-        return implode($glue, $numbers);
-    }
-
-    protected function getOperator(): string
-    {
-        return '*';
-    }
-
-    /**
-     * @param array $numbers
-     *
-     * @return float|int
-     */
-    protected function calculateAll(array $numbers)
-    {
-        $number = array_pop($numbers);
-
-        if (count($numbers) <= 0) {
-            return $number;
-        }
-
-        return $this->calculate($this->calculateAll($numbers), $number);
-    }
-
-    /**
-     * @param int|float $number1
-     * @param int|float $number2
-     *
-     * @return int|float
-     */
-    protected function calculate($number1, $number2)
-    {
-        return $number1 * $number2;
     }
 }
