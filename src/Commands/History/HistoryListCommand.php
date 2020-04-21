@@ -18,7 +18,6 @@ class HistoryListCommand extends Command
     public function handle(): void
     {
         $this->getHistory($this->argument("commands"));
-        var_dump($this->argument("commands"));
         return;
     }
 
