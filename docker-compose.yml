@@ -6,7 +6,7 @@ services:
         command: --default-authentication-plugin=mysql_native_password
 #        working_dir: /application
         volumes:
-          - .:/application
+          - ./src/Database:/docker-entrypoint-initdb.d
         restart: always
         environment:
           - MYSQL_ROOT_PASSWORD=root.
@@ -14,13 +14,13 @@ services:
           - MYSQL_USER=root
           - MYSQL_PASSWORD=root
         ports:
-          - "8082:3306"
+          - "3306:3306"
   website:
-    container_name: php72
+    container_name: php73
     build:
       context: ./
     volumes:
-      - /home/borneo/jakmall/phpcalculator/
+      - ./src/Database:/var/www/html/
     ports:
       - 8000:80
     depends_on:
