@@ -1,8 +1,8 @@
 <?php
 
 namespace Jakmall\Recruitment\Calculator\Repository;
-
 use Illuminate\Console\Command;
+use Jakmall\Recruitment\Calculator\Database\MySQL;
 
 class HistoryRepository extends Command
 {
@@ -16,6 +16,9 @@ class HistoryRepository extends Command
 
     public function getAll(array $filter = array()): array
     {
+        // $db = new MySQL();
+        // // $db->db_query("SELECT * FROM calculator.calculator");
+        // var_dump($db::database());
         $history = fopen(self::$fileName, 'r');
 
         $result = [];
